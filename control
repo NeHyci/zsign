@@ -1,0 +1,9 @@
+Package: zsign
+Name: zsign
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: Maybe is the most quickly codesign alternative for iOS12+ in the world,  cross-platform ( iOS, macOS, Linux , Windows ), more features. 
+Maintainer: zhlynn
+Author: zhlynn
+Section: System
+Tag: role::hacker

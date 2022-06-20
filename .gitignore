@@ -5,3 +5,6 @@ zsign
 .zsign*
 .xmake
 build
+.theos
+packages
+.DS_Store

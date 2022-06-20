@@ -2,11 +2,12 @@
 #include "common/base64.h"
 #include "openssl.h"
 
-#include <openssl/pem.h>
-#include <openssl/cms.h>
-#include <openssl/err.h>
-#include <openssl/pkcs12.h>
-#include <openssl/conf.h>
+// If I use #include <openssl/*.h>, the referenced header file will be in theos, but the OpenSSL Headers in theos is too old.
+#include <_openssl/pem.h>
+#include <_openssl/cms.h>
+#include <_openssl/err.h>
+#include <_openssl/pkcs12.h>
+#include <_openssl/conf.h>
 
 class COpenSSLInit
 {

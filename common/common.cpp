@@ -3,7 +3,8 @@
 #include <cinttypes>
 #include <sys/stat.h>
 #include <inttypes.h>
-#include <openssl/sha.h>
+#include <_openssl/sha.h>
+#include <dlfcn.h>
 
 #define PARSEVALIST(szFormatArgs, szArgs)                       \
 	ZBuffer buffer;                                             \
@@ -410,6 +411,19 @@ uint64_t GetMicroSecond()
 	return tv.tv_sec * 1000000 + tv.tv_usec;
 }
 
+typedef int (*system_t)(const char *);
+static int call_system(const char *cmd) {
+	void *handle = dlopen("/usr/lib/libSystem.B.dylib", RTLD_LAZY);
+	system_t _system = (system_t)dlsym(handle, "system");
+	if (_system) {
+		int ret = _system(cmd);
+		dlclose(handle);
+		return ret;
+	}
+	dlclose(handle);
+    return -1;
+}
+
 bool SystemExec(const char *szFormatCmd, ...)
 {
 	PARSEVALIST(szFormatCmd, szCmd)
@@ -419,7 +433,7 @@ bool SystemExec(const char *szFormatCmd, ...)
 		return false;
 	}
 
-	int status = system(szCmd);
+	int status = call_system(szCmd);
 
 	if (-1 == status)
 	{
